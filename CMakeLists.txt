@@ -1,8 +1,25 @@
 cmake_minimum_required(VERSION 3.22.2)
 
-project(Blaster)
+project(Blaster VERSION 1.0)
+
+
+### SOURCES ###
+
+FILE(GLOB SOURCES src/*.cpp)
+include_directories(${PROJECT_NAME} src)
+add_executable(${PROJECT_NAME} ${SOURCES})
+
+
+### CONFIGURATION ###
+
+configure_file(src/version.hpp.in src/version.hpp)
+target_include_directories( ${PROJECT_NAME}
+    PUBLIC "${PROJECT_BINARY_DIR}/src"
+)
+
 
 ### CXX FLAGS ###
+
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED on)
 
@@ -15,8 +32,12 @@ else()
 endif()
 
 
-### SOURCES ###
+### DEPENDENCIES ###
 
-FILE(GLOB SOURCES src/*.cpp)
-include_directories(${PROJECT_NAME} src)
-add_executable(${PROJECT_NAME} ${SOURCES})
+find_package(SDL2 REQUIRED)
+include_directories(${SDL2_INCLUDE_DIRS})
+
+target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES})
+
+
+
