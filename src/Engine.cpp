@@ -1,4 +1,5 @@
 #include "Engine.hpp"
+#include "Data.hpp"
 #include "version.hpp"
 #include <SDL2/SDL.h>
 #include <stdexcept>
@@ -12,9 +13,10 @@ using std::cout;
 
 Engine::Engine()
 {
-    cout << "Initializing." << endl;
+    cout << "Initializing..." << endl;
     this->create_window();
     this->create_renderer();
+    this->init_data();
 }
 
 Engine::~Engine()
@@ -23,9 +25,12 @@ Engine::~Engine()
         SDL_DestroyWindow(_window);
     if(_renderer)
         SDL_DestroyRenderer(_renderer);
+    if(_data)
+        delete _data;
 
     _window = nullptr;
     _renderer = nullptr;
+    _data = nullptr;
 }
 
 
@@ -65,6 +70,30 @@ void Engine::create_renderer()
     }
 }
 
+void Engine::init_data()
+{
+    _data = new Data;
+
+    Entity player;
+    player.position = {40, 0, 24, 56};
+    _data->entities.emplace_back(player);
+
+    _data->platforms.push_back({
+        { 40, 500},
+        {760, 500}
+    });
+
+    _data->platforms.push_back({
+        {160, 420},
+        {280, 420}
+    });
+
+    _data->platforms.push_back({
+        {520, 420},
+        {640, 420}
+    });
+}
+
 
 void Engine::run()
 {
@@ -81,34 +110,8 @@ void Engine::run()
         this->render();
     }
 
-}
-
-void Engine::tick()
-{
-    
-}
-
-void Engine::poll_events()
-{
-    SDL_Event ev;
-    while(SDL_PollEvent(&ev))
-    {
-        switch(ev.type)
-        {
-            case SDL_QUIT:
-                _running = false;
-                break;
-        }
-    }
-}
-
-void Engine::render()
-{
-    auto& _rnd = _renderer;
-
-    SDL_SetRenderDrawColor(_rnd, 0, 0, 0, 255);
-    SDL_RenderClear(_rnd);
-
-
-    SDL_RenderPresent(_rnd);
+    cout << endl << "Closing "
+         << PROJECT_NAME << ' '
+         << VERSION_MAJOR << '.'
+         << VERSION_MINOR << endl;
 }
