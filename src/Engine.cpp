@@ -80,17 +80,23 @@ void Engine::init_data()
 
     _data->platforms.push_back({
         { 40, 500},
-        {760, 500}
+        {760, 500},
+        true, true 
     });
 
     _data->platforms.push_back({
         {160, 420},
-        {280, 420}
+        {280, 320}
     });
 
     _data->platforms.push_back({
-        {520, 420},
+        {520, 320},
         {640, 420}
+    });
+
+    _data->platforms.push_back({
+        {400, 320},
+        {520, 320},
     });
 }
 

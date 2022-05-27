@@ -3,7 +3,9 @@
 
 struct SDL_Window;
 struct SDL_Renderer;
+struct SDL_FPoint;
 struct Data;
+struct Platform;
 struct Entity;
 
 
@@ -30,12 +32,14 @@ private:
     void tick();
     void move_player();
     void apply_gravity();
+    void apply_impact(Platform*, SDL_FPoint*, float power);
 
     void poll_events();
     void render();
 
     void jump(Entity*);
     void drop_down(Entity*);
+    void move(Entity*, SDL_FPoint* direction);
 
 };
 
