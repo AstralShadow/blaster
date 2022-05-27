@@ -34,6 +34,7 @@ struct Data
 public:
     vector<Platform> platforms;
     vector<Entity> entities;
+    vector<SDL_Point> loot;
 };
 
 #endif // INCLUDE_DATA_HPP
