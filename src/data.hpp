@@ -15,6 +15,11 @@ struct Platform
     bool solid = false;
 };
 
+struct Wall
+{
+    SDL_FPoint edge1, edge2;
+};
+
 struct Entity
 {
     SDL_FRect position;
@@ -31,10 +36,13 @@ struct Entity
 
 struct Data
 {
-public:
     vector<Platform> platforms;
+    vector<Wall> walls;
+
     vector<Entity> entities;
     vector<SDL_Point> loot;
+
+    int score = 0;
 };
 
 #endif // INCLUDE_DATA_HPP

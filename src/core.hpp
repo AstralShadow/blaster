@@ -1,7 +1,7 @@
 #ifndef INCLUDE_CORE_HPP
 #define INCLUDE_CORE_HPP
 
-#include "Data.hpp"
+#include "data.hpp"
 
 void run();
 
@@ -17,7 +17,7 @@ void jump(Entity*);
 void drop_down(Entity*);
 void move(Entity*, SDL_FPoint* direction);
 
-void collect_loot();
 void generate_loot();
+void collect_loot();
 
 #endif // INCLUDE_CORE_HPP

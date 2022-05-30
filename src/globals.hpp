@@ -1,7 +1,7 @@
 #ifndef INCLUDE_GLOBALS_HPP
 #define INCLUDE_GLOBALS_HPP
 
-#include "Data.hpp"
+#include "data.hpp"
 
 struct SDL_Window;
 struct SDL_Renderer;

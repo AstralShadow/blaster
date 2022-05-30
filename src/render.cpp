@@ -25,5 +25,16 @@ void render()
                                  platform.edge2.y);
     }
 
+    SDL_SetRenderDrawColor(rnd, 127, 255, 0, 255);
+    for(auto const& loot : g_data.loot)
+    {
+        SDL_Rect area {
+            loot.x - 5,
+            loot.y - 7,
+            10, 14
+        };
+        SDL_RenderDrawRect(rnd, &area);
+    }
+
     SDL_RenderPresent(rnd);
 }
