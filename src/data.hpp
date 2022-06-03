@@ -21,9 +21,10 @@ struct Wall
 
 struct Entity
 {
-    float speed = 6;
     float mass = 4;
+    float max_speed = 6;
     float jump_power = 5;
+    float acceleration = 2;
 
     SDL_FRect position;
     SDL_FPoint velocity {0, 0};

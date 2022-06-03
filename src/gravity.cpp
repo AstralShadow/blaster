@@ -33,7 +33,7 @@ void apply_gravity()
 
             if(distance < 0) continue;
 
-            if(distance < velocity + entity.speed)
+            if(distance < velocity + entity.max_speed)
             {
                 velocity = distance;
                 entity.velocity.y = 0;

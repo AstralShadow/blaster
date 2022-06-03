@@ -23,14 +23,52 @@ void drop_down(Entity& entity)
     }
 }
 
+void apply_friction(Entity& entity)
+{
+    auto const acceleration = entity.acceleration;
+    auto& speed = entity.velocity.x;
+
+    if(std::abs(speed) < acceleration)
+        speed = 0;
+
+    if(speed > 0)
+        speed -= acceleration;
+
+    if(speed < 0)
+        speed += acceleration;
+}
+
+void accelerate(Entity& entity, float const& direction)
+{
+    auto const max_speed = entity.max_speed;
+    auto const acceleration = entity.acceleration;
+    auto& speed = entity.velocity.x;
+    auto sign = std::signbit(direction) ? -1 : 1;
+
+    if(std::abs(speed) <= max_speed)
+    {
+        speed += acceleration * sign;
+        if(std::abs(speed) > max_speed)
+            speed = max_speed * sign;
+    }
+
+    if(std::abs(speed) > max_speed)
+        apply_friction(entity);
+}
+
 
 void move(Entity& entity, SDL_FPoint const& direction)
 {
     if(direction.y < 0) jump(entity);
     if(direction.y > 0) drop_down(entity);
-    if(direction.x == 0) return;
 
-    auto motion = direction.x * entity.speed;
+    if(direction.x == 0)
+        apply_friction(entity);
+    else
+        accelerate(entity, direction.x);
+
+
+    auto motion = entity.velocity.x;
 
     if(entity.foothold){
         auto& platform = *(entity.foothold);
