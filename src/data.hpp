@@ -23,7 +23,7 @@ struct Entity
 {
     float mass = 4;
     float max_speed = 6;
-    float jump_power = 5;
+    float jump_power = 4.8;
     float acceleration = 2;
     uint32_t drop_tick = 0; // used for late jump
 
