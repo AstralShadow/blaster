@@ -14,7 +14,7 @@ void apply_gravity()
         
         entity.fall_speed += 0.25;
         if(entity.fall_speed > 1.5)
-            entity.support = nullptr;
+            entity.foothold = nullptr;
 
         float velocity = entity.mass * entity.fall_speed;
         float fall_power = velocity;
@@ -38,30 +38,30 @@ void apply_gravity()
             {
                 velocity = distance;
                 entity.fall_speed = 0;
-                entity.support = &platform;
+                entity.foothold = &platform;
             }
         }
 
         fall_power -= velocity;
         entity.position.y += velocity;
 
-        if(entity.support && !entity.support->solid)
+        if(entity.foothold && entity.foothold->rotating)
         {
             SDL_FPoint impact_point {p_middle, p_bottom};
-            apply_impact(entity.support,
-                         &impact_point,
+            apply_impact(*entity.foothold,
+                         impact_point,
                          fall_power);
         }
     }
 }
 
-void apply_impact(Platform* platform,
-                  SDL_FPoint* point,
+void apply_impact(Platform& platform,
+                  SDL_FPoint const& point,
                   float power)
 {
-    auto& e1 = platform->edge1;
-    auto& e2 = platform->edge2;
-    SDL_FPoint p_mid {
+    auto& e1 = platform.edge1;
+    auto& e2 = platform.edge2;
+    SDL_FPoint pivot {
         (e1.x + e2.x) / 2,
         (e1.y + e2.y) / 2
     };
@@ -70,13 +70,13 @@ void apply_impact(Platform* platform,
     auto p_dy = e1.y - e2.y;
     auto length_sqrd = p_dx * p_dx + p_dy * p_dy;
     
-    auto d_dx = p_mid.x - point->x;
-    auto d_dy = p_mid.y - point->y;
+    auto d_dx = pivot.x - point.x;
+    auto d_dy = pivot.y - point.y;
     auto distance_sqrd = d_dx * d_dx + d_dy * d_dy;
 
     auto rotation = 2 * power *
                      sqrt(distance_sqrd / length_sqrd);
-    if(point->x < p_mid.x)
+    if(point.x < pivot.x)
         rotation *= -1;
 
     // TODO rotating/falling platforms

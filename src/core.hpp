@@ -11,11 +11,13 @@ void poll_events();
 void render();
 
 void apply_gravity();
-void apply_impact(Platform*, SDL_FPoint*, float power);
+void apply_impact(Platform&,
+                  SDL_FPoint const& point,
+                  float power);
 
-void jump(Entity*);
-void drop_down(Entity*);
-void move(Entity*, SDL_FPoint* direction);
+void jump(Entity&);
+void drop_down(Entity&);
+void move(Entity&, SDL_FPoint const& direction);
 
 void generate_loot();
 void collect_loot();

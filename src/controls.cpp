@@ -4,49 +4,49 @@
 #include <cmath>
 
 
-void jump(Entity* entity)
+void jump(Entity& entity)
 {
-    if(entity->support)
-        entity->fall_speed = -entity->mass
-                              * entity->jump_factor;
-    entity->support = nullptr;
+    if(entity.foothold)
+    {
+        entity.fall_speed = -1 * entity.jump_power;
+    }
+    entity.foothold = nullptr;
 }
 
-void drop_down(Entity* entity)
+void drop_down(Entity& entity)
 {
-    if(entity->support && !entity->support->solid)
+    if(entity.foothold && entity.foothold->can_drop)
     {
-        entity->position.y += 1;
-        entity->support = nullptr;
+        entity.position.y += 1;
+        entity.foothold = nullptr;
     }
 }
 
 
-void move(Entity* entity, SDL_FPoint* motion)
+void move(Entity& entity, SDL_FPoint const& direction)
 {
-    if(motion->y < 0) jump(entity);
-    if(motion->y > 0) drop_down(entity);
-    if(motion->x == 0) return;
+    if(direction.y < 0) jump(entity);
+    if(direction.y > 0) drop_down(entity);
+    if(direction.x == 0) return;
 
-    auto const motion_x = motion->x * entity->speed;
+    auto const motion_x = direction.x * entity.speed;
 
-    if(!entity->support)
-    {
-        entity->position.x += motion_x;
-    }
-    else
-    {
-        auto& platform = *(entity->support);
+    if(entity.foothold){
+        auto& platform = *(entity.foothold);
         auto dx = platform.edge1.x - platform.edge2.x;
         auto dy = platform.edge1.y - platform.edge2.y;
         auto angle = atan2(dy, dx);
         
-        entity->position.y -= sin(angle) * motion_x + .1;
-        entity->position.x -= cos(angle) * motion_x;
+        entity.position.y -= sin(angle) * motion_x + .1;
+        entity.position.x -= cos(angle) * motion_x;
 
-        if(entity->position.x > platform.edge2.x)
-            entity->position.y -= 1;
-        if(entity->position.x < platform.edge1.x)
-            entity->position.y -= 1;
+        if(entity.position.x > platform.edge2.x)
+            entity.position.y -= 1;
+        if(entity.position.x < platform.edge1.x)
+            entity.position.y -= 1;
+    }
+    else
+    {
+        entity.position.x += motion_x;
     }
 }

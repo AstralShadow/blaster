@@ -24,7 +24,7 @@ void move_player()
         SDL_SCANCODE_RIGHT
     };
 
-    Entity* player = &g_data.entities[0];
+    Entity& player = g_data.entities[0];
     SDL_FPoint motion = {0, 0};
 
     for(auto up : key_up)
@@ -43,5 +43,5 @@ void move_player()
         if(kb_state[right])
             motion.x++;
 
-    move(player, &motion);
+    move(player, motion);
 }

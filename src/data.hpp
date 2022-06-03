@@ -11,8 +11,8 @@ using std::vector;
 struct Platform
 {
     SDL_FPoint edge1, edge2;
-    bool stable = true;
-    bool solid = false;
+    bool can_drop = true;
+    bool rotating = false;
 };
 
 struct Wall
@@ -22,15 +22,14 @@ struct Wall
 
 struct Entity
 {
-    SDL_FRect position;
     float speed = 6;
-    float jump_state = -1;
     float mass = 4;
-    float jump_factor = 1.2;
-    Platform* support = nullptr;
+    float jump_power = 5;
 
+    SDL_FRect position;
+    //SDL_FPoint velocity;
     float fall_speed = 0;
-    //float movement_speed = 0;
+    Platform* foothold= nullptr;
 };
 
 

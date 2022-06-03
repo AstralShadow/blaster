@@ -75,7 +75,7 @@ void init_data()
     g_data.platforms.push_back({
         { 40, 500},
         {760, 500},
-        true, true 
+        false
     });
 
     g_data.platforms.push_back({
