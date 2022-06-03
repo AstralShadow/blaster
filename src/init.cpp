@@ -78,10 +78,11 @@ void init_data()
         false
     });
 
-    g_data.platforms.push_back({
-        {160, 420},
-        {280, 320}
-    });
+    for(int i = 0; i < 4; i++)
+        g_data.platforms.push_back({
+            {160, 500},
+            {320, 420 - i * 100}
+        });
 
     g_data.platforms.push_back({
         {520, 320},

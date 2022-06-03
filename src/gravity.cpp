@@ -10,11 +10,8 @@ void apply_gravity()
         auto p_middle = pos.x + pos.w / 2;
         auto p_bottom = pos.y + pos.h;
 
-        
         entity.velocity.y += g_gravity;
-        if(entity.velocity.y > 1.5)
-            entity.foothold = nullptr;
-
+        
         float velocity = entity.mass * entity.velocity.y;
         float fall_power = velocity;
 
@@ -33,7 +30,8 @@ void apply_gravity()
 
             if(distance < 0) continue;
 
-            if(distance < velocity + entity.max_speed)
+            // TODO take into account horizontal movement
+            if(distance < velocity)
             {
                 velocity = distance;
                 entity.velocity.y = 0;
