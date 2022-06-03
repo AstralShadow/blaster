@@ -12,4 +12,8 @@ extern SDL_Renderer* g_renderer;
 extern Data g_data;
 extern bool g_running;
 
+
+float const g_gravity = 0.25; 
+
+
 #endif // INCLUDE_GLOBALS_HPP

@@ -7,7 +7,6 @@
 
 using std::vector;
 
-
 struct Platform
 {
     SDL_FPoint edge1, edge2;
@@ -27,9 +26,8 @@ struct Entity
     float jump_power = 5;
 
     SDL_FRect position;
-    //SDL_FPoint velocity;
-    float fall_speed = 0;
-    Platform* foothold= nullptr;
+    SDL_FPoint velocity {0, 0};
+    Platform* foothold = nullptr;
 };
 
 
