@@ -80,12 +80,15 @@ void move(Entity& entity, SDL_FPoint const& direction)
     if(entity.foothold){
         auto& e1 = entity.foothold->edge1;
         auto& e2 = entity.foothold->edge2;
+        auto& pos = entity.position;
 
         auto dx = e2.x - e1.x;
         auto dy = e2.y - e1.y;
         auto angle = std::atan2(dy, dx);
 
-        auto& pos = entity.position;
+        auto pull = entity.mass * sin(angle) * g_gravity;
+        motion += pull;
+
         float edge_dist;
         if(motion > 0)
         {
@@ -101,28 +104,32 @@ void move(Entity& entity, SDL_FPoint const& direction)
         }
 
 
-        auto pull = entity.mass * sin(angle) * g_gravity;
-        motion += pull;
         if(std::abs(motion) > edge_dist)
         {
             auto full_motion = motion;
             motion = edge_dist *
                       (std::signbit(motion) ? -1 : 1);
-            entity.position.x += full_motion - motion;
+            pos.x += full_motion - motion;
             drop_down(entity);
         }
 
-        entity.position.y += sin(angle) * motion - .1;
-        entity.position.x += cos(angle) * motion;
+        pos.y += sin(angle) * motion;
+        pos.x += cos(angle) * motion;
 
 
         /* Move the player up when he falls of an edge
          * so he will be over any platforms that share
          * the same edge. */
-        if(entity.position.x > e2.x)
-            entity.position.y -= 1;
-        if(entity.position.x < e1.x)
-            entity.position.y -= 1;
+        if(pos.x + pos.w / 2 > e2.x)
+        {
+            drop_down(entity);
+            entity.position.y -= 3;
+        }
+        if(pos.x + pos.w / 2 < e1.x)
+        {
+            drop_down(entity);
+            entity.position.y -= 3;
+        }
     }
     else
     {
