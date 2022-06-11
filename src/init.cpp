@@ -10,6 +10,7 @@ using std::string;
 
 void init()
 {
+    init_sdl();
     create_window();
     create_renderer();
     init_data();
@@ -17,10 +18,10 @@ void init()
 
 void deinit()
 {
-    if(g_window)
-        SDL_DestroyWindow(g_window);
     if(g_renderer)
         SDL_DestroyRenderer(g_renderer);
+    if(g_window)
+        SDL_DestroyWindow(g_window);
 
     g_window = nullptr;
     g_renderer = nullptr;
@@ -28,6 +29,17 @@ void deinit()
     SDL_Quit();
 }
 
+
+void init_sdl()
+{
+    if(SDL_Init(SDL_INIT_VIDEO))
+    {
+        string error = "Could not init SDL.\n";
+        error += "SDL_Error: \n";
+        error += SDL_GetError();
+        std::runtime_error(error.c_str());
+    }
+}
 
 void create_window()
 {
